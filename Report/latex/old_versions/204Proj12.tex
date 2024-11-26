@@ -1,0 +1,641 @@
+\documentclass[8pt]{article}
+
+\usepackage{../sbc-template} 
+\usepackage{graphicx}
+\usepackage[utf8]{inputenc} 
+\usepackage[T1]{fontenc}
+\usepackage[brazil]{babel}
+\usepackage[normalem]{ulem}
+\usepackage[hidelinks]{hyperref}
+
+\usepackage[square,authoryear]{natbib}
+\usepackage{amssymb} 
+\usepackage{mathalfa} 
+\usepackage{algorithm} 
+\usepackage{algpseudocode} 
+\usepackage[table]{xcolor}
+\usepackage{array}
+\usepackage{titlesec}
+\usepackage{mdframed}
+\usepackage{listings}
+
+\usepackage{amsmath} 
+\usepackage{booktabs}
+\usepackage[american]{circuitikz}
+
+\urlstyle{same}
+
+\newcolumntype{L}[1]{>{\raggedright\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+\newcolumntype{C}[1]{>{\centering\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+\newcolumntype{R}[1]{>{\raggedleft\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+
+\newcommand\Tstrut{\rule{0pt}{2.6ex}} 
+\newcommand\Bstrut{\rule[-0.9ex]{0pt}{0pt}} 
+\newcommand{\scell}[2][c]{\begin{tabular}[#1]{@{}c@{}}#2\end{tabular}}
+
+\usepackage[nolist,nohyperlinks]{acronym}
+
+\title{Finite Element Analysis of Static Systems}
+
+\begin{document} 
+
+\section{Problem 1}
+\label{sec:Problem 1}
+
+% Insert image here
+\begin{figure}[h!]
+    \centering
+    % \includegraphics[width=0.5\textwidth]{image_file_path}
+    \caption{Full Problem 1}
+\end{figure}
+
+A node was placed in between each spring, and displacement will be calculated at each node.
+
+\subsection{Deriving Element Equations}
+
+The equations used for this problem will be based on Hooke's Law for springs, as shown:
+\[
+F = -kx
+\]
+
+The forces at each element are the axial forces acting upon either end of the spring. Modeling both forces using Hooke's law, we get the following system:
+% Add a visual here
+\begin{figure}[h!]
+    \centering
+    % \includegraphics[width=0.5\textwidth]{image_file_path}
+    \caption{Forces on One Spring}
+\end{figure}
+\[
+(\text{Forces}) = [\text{stiffness of spring}] \times (\text{displacement of nodes})
+\]
+\[
+\begin{bmatrix}
+    F_1 \\
+    F_2 \\
+\end{bmatrix}
+=
+\begin{bmatrix}
+    k_1 & -k_1 \\
+    -k_1 & k_1 \\
+\end{bmatrix}
+\cdot
+\begin{bmatrix}
+    x_1 \\
+    x_2 \\
+\end{bmatrix}
+\]
+
+Now the relationship between the nodes must be considered. Consider this simplified example with two springs, and note that the forces at the shared node (node 2) cancel out, as they are equal and opposite.
+% Insert visual here
+\begin{figure}[h!]
+    \centering
+    % \includegraphics[width=0.5\textwidth]{image_file_path}
+    \caption{Forces on Two Springs}
+\end{figure}
+\[
+\begin{bmatrix}
+    F_{11} \\
+    F_{12} + F_{21} \\
+    F_{22} \\
+\end{bmatrix}
+=
+\begin{bmatrix}
+    k_1 & -k_1 & 0 \\
+    -k_1 & k_1 + k_2 & -k_2 \\
+    0 & -k_2 & k_2 \\
+\end{bmatrix}
+\cdot
+\begin{bmatrix}
+    x_1 \\
+    x_2 \\
+    x_3 \\
+\end{bmatrix}
+=
+\begin{bmatrix}
+    F_{11} \\
+    0 \\
+    F_{22} \\
+\end{bmatrix}
+\]
+
+Expanding this logic to apply to all five elements, we get a full set of global equations as shown:
+% Insert corresponding visual here
+\begin{figure}[h!]
+    \centering
+    % \includegraphics[width=0.5\textwidth]{image_file_path}
+    \caption{Forces on Full Problem}
+\end{figure}
+\[
+\begin{bmatrix}
+    F_1 \\
+    0 \\
+    0 \\
+    0 \\
+    0 \\
+    F_6 \\
+\end{bmatrix}
+=
+\begin{bmatrix}
+    k_1 & -k_1 & 0 & 0 & 0 & 0 \\
+    -k_1 & k_1 + k_2 & -k_2 & 0 & 0 & 0 \\
+    0 & -k_2 & k_2 + k_3 & -k_3 & 0 & 0 \\
+    0 & 0 & -k_3 & k_3 + k_4 & -k_4 & 0 \\
+    0 & 0 & 0 & -k_4 & k_4 + k_5 & -k_5 \\
+    0 & 0 & 0 & 0 & -k_5 & k_5 \\
+\end{bmatrix}
+\cdot
+\begin{bmatrix}
+    x_1 \\
+    x_2 \\
+    x_3 \\
+    x_4 \\
+    x_5 \\
+    x_6 \\
+\end{bmatrix}
+\]
+
+Applying the given values for the stiffnesses and external forces, we get the following system:
+\[
+\begin{bmatrix}
+    F_1 \\
+    0 \\
+    0 \\
+    0 \\
+    0 \\
+    2 \\
+\end{bmatrix}
+=
+\begin{bmatrix}
+    0.25 & -0.25 & 0 & 0 & 0 & 0 \\
+    -0.25 & 0.25 + 0.5 & -0.5 & 0 & 0 & 0 \\
+    0 & -0.5 & 0.5 + 1.5 & -1.5 & 0 & 0 \\
+    0 & 0 & -1.5 & 1.5 + 0.75 & -0.75 & 0 \\
+    0 & 0 & 0 & -0.75 & 0.75 + 1 & -1 \\
+    0 & 0 & 0 & 0 & -1 & 1 \\
+\end{bmatrix}
+\cdot
+\begin{bmatrix}
+    x_1 \\
+    x_2 \\
+    x_3 \\
+    x_4 \\
+    x_5 \\
+    x_6 \\
+\end{bmatrix}
+\]
+
+Now, noticing that \( x_1 \) must be 0 as it is axially constrained to have 0 displacement by the wall, we can eliminate all elements that would be multiplied by \( x_1 \). This means we can remove the first row and column. Evaluating the addition of spring stiffnesses, we get a simplified system as shown:
+
+\[
+\begin{bmatrix} 
+    0 \\
+    0 \\
+    0 \\
+    0 \\
+    2 \\
+\end{bmatrix}
+=
+\begin{bmatrix}
+    0.25 + 0.5 & -0.5 & 0 & 0 & 0 \\
+    -0.5 & 0.5 + 1.5 & -1.5 & 0 & 0 \\
+    0 & -1.5 & 1.5 + 0.75 & -0.75 & 0 \\
+    0 & 0 & -0.75 & 0.75 + 1 & -1 \\
+    0 & 0 & 0 & -1 & 1 \\
+\end{bmatrix}
+\cdot
+\begin{bmatrix}
+    x_2 \\
+    x_3 \\
+    x_4 \\
+    x_5 \\
+    x_6 \\
+\end{bmatrix}
+\]
+
+\subsection{MATLAB Solution}
+
+Solving this system with MATLAB, we get the following solution for the displacements:
+
+\begin{figure}[h!]
+    \begin{minipage}{0.3\textwidth}
+        \centering
+        \[
+        \begin{bmatrix}
+            x_1 \\
+            x_2 \\
+            x_3 \\
+            x_4 \\
+            x_5 \\
+            x_6 \\
+        \end{bmatrix}
+        =
+        \begin{bmatrix}
+            0 \\
+            8 \\
+            12 \\
+            \frac{40}{3} \\
+            16 \\
+            18 \\
+        \end{bmatrix}
+        m
+        \]
+        \end{minipage}\hfill
+        \begin{minipage}{0.6\textwidth}
+            \centering
+            %\includegraphics[width=\textwidth]{image_file_path} % Replace with your image path
+            \caption{Example Figure}
+        \end{minipage}
+\end{figure}
+
+\section{Problem 2}
+
+% Insert image here
+\begin{figure}[h!]
+    \centering
+    % \includegraphics[width=0.5\textwidth]{image_file_path}
+    \caption{Full Problem 2}
+\end{figure}
+
+Problem 2 requires that the displacements of nodes 1-4 be found when the force \( P_4 \) is applied to node 4. The equation for displacement of the nodes is:
+\[
+\delta = \frac{PL}{EA}
+\]
+This formula can be seen as an expression of Hooke's Law onto material mechanics and properties, 
+\[
+k = \frac{AE}{L} \implies P = k\delta
+\]
+From here, the procedure is much the same as in problem 1. The beam can be seperated into three elements for each section with different diameters. The nodes are given by the problem. Then, the system of equations is given by:
+\[
+F = kx
+\quad
+\quad
+\begin{bmatrix}
+    F_1 \\ 
+    F_2 \\ 
+    F_3 \\ 
+    F_4 \\
+\end{bmatrix}
+=
+\begin{bmatrix}
+    k_1 & -k_1 & 0 & 0 \\
+    -k_1 & k_1 + k_2 & -k_2 & 0 \\
+    0 & -k_2 & k_2 + k_3 & -k_3 \\
+    0 & 0 & -k_3 & k_3 \\
+\end{bmatrix}
+\cdot
+\begin{bmatrix}
+    x_1 \\ 
+    x_2 \\ 
+    x_3 \\ 
+    x_4 \\
+\end{bmatrix}
+\]
+\[
+\begin{bmatrix}
+    0 \\ 
+    0 \\ 
+    0 \\ 
+    1000 \\
+\end{bmatrix}
+=
+\begin{bmatrix}
+\frac{r_1^2 \pi E}{L_1} & -\frac{r_1^2 \pi E}{L_1} & 0 & 0 \\
+-\frac{r_1^2 \pi E}{L_1} & \frac{r_1^2 \pi E}{L_1} + \frac{r_2^2 \pi E}{L_2} & -\frac{r_2^2 \pi E}{L_2} & 0 \\
+0 & -\frac{r_2^2 \pi E}{L_2} & \frac{r_2^2 \pi E}{L_2} + \frac{r_3^2 \pi E}{L_3} & -\frac{r_3^2 \pi E}{L_3} \\
+0 & 0 & -\frac{r_3^2 \pi E}{L_3} & \frac{r_3^2 \pi E}{L_3} \\
+\end{bmatrix}
+\cdot
+\begin{bmatrix}
+    x_1 \\ 
+    x_2 \\ 
+    x_3 \\ 
+    x_4 \\
+\end{bmatrix}
+\]
+
+Once again, there is no displacement at the first node, and therefore the first row and column of the matrix can be removed as all elements go to 0. Evaluating the k matrix, we get a simplified system of equations as shown:
+
+\[
+\begin{bmatrix}
+    0 \\ 
+    0 \\ 
+    1000 \\
+\end{bmatrix}
+=
+10^9 \cdot
+\begin{bmatrix}
+    1.897 & -0.4335 & 0 \\
+    -0.4335 & 0.5148 & -0.0813 \\
+    0 & -0.0813 & -0.0813\\
+\end{bmatrix}
+\cdot
+\begin{bmatrix}
+    x_2 \\ 
+    x_3 \\ 
+    x_4 \\
+\end{bmatrix}
+\]
+
+
+\subsection{MATLAB Solution}
+
+Solving this system with MATLAB, we get the following solution for the displacements:
+
+\begin{figure}[h!]
+    \begin{minipage}{0.3\textwidth}
+        \centering
+        \[
+        \begin{bmatrix}
+            x_1 \\
+            x_2 \\
+            x_3 \\
+            x_4 \\
+
+        \end{bmatrix}
+        =
+        10^{-5} \cdot
+        \begin{bmatrix}
+            0 \\
+            0.0683 \\
+            0.299 \\
+            1.5292 \\
+        \end{bmatrix}
+        m
+        \]
+        \end{minipage}\hfill
+        \begin{minipage}{0.6\textwidth}
+            \centering
+            %\includegraphics[width=\textwidth]{image_file_path} % Replace with your image path
+            \caption{Example Figure}
+        \end{minipage}
+\end{figure}
+\section{Problem 3}
+\label{sec:Problem 3}
+
+% Insert image here
+\begin{figure}[h!]
+    \centering
+    % \includegraphics[width=0.5\textwidth]{image_file_path}
+    \caption{Full problem}
+\end{figure}
+
+Each joint represents a node in the truss and each connection represents an element. 
+\subsection{Deriving Element Equations}
+
+Each element can be modeled as a spring with spring 
+constant $k=\frac{AE}{L}$. It is important to note that for this problem A, E and L remain constant for all elements and therefore can be pulled out of the global matrix as a factor.
+$$A=4cm^2$$
+$$E=200GPa$$
+$$L=1.2m$$
+
+The forces at each element are the axial forces acting upon either end of the element. However, since each element has a local coordinate
+system, translation matrix is required. First lets consider the local stiffness matrix for each element.
+
+The local stiffness matrix for any element is as follows:
+\[
+K_{\text{local}} = \frac{AE}{L}
+\begin{bmatrix}
+    1 & 0 & -1 & 0 \\
+    0 & 0 & 0 & 0 \\
+    -1 & 0 & 1 & 0 \\
+    0 & 0 & 0 & 0 \\
+\end{bmatrix}
+\]
+Each element is connecting 2 nodes each with 2 degrees of freedom. Therefore, the stiffness matrix 
+required for a single element is 4x4.
+Each column/row represents 1 degree of freedom for each node. Therefore, the first 2 columns/rows represent the first node and the last 2 columns/rows represent the second node. 
+It is important to label each degree of freedom in the system and track which degree of freedom corresponds to each column and row in the local stiffness matrix.
+This is because when turning the local stiffness matrix into the global stiffness matrix representing all degrees of freedom, the specific entry for the specific 
+degree of freedom must be placed in the correct location in the global stiffness matrix.
+
+A table containing each element and its corresponding nodes as well as the degrees of freedom for each node is as follows:
+
+\[
+\begin{tabular}{|c|c|c|c|c|}
+\hline
+Element \# & From Node \# & To Node \# & DOFs & $\theta$ (deg) \\
+\hline
+1 & 1 & 2 & 1, 2, 3, 4 & 60 \\
+\hline
+2 & 1 & 3 & 1, 2, 5, 6 & 0 \\
+\hline
+3 & 2 & 3 & 3, 4, 5, 6 & -60 \\
+\hline
+4 & 3 & 4 & 5, 6, 7, 8 & 60 \\
+\hline
+5 & 3 & 5 & 5, 6, 9, 10 & 0 \\
+\hline
+6 & 4 & 5 & 7, 8, 9, 10 & -60 \\
+\hline
+7 & 2 & 4 & 1, 2, 7, 8 & 0 \\
+\hline
+\end{tabular}
+\]
+
+Each element has its own local stiffness matrix as shown above. However, they differ in the degrees of freedom being represented.
+For example, the local stiffness matrix for element 1 will have rows/columns DOFs 1, 2, 3, 4. 
+The local stiffness matrix for element 2 will have rows/columns DOFs 1, 2, 5, 6. The same pattern repeats for the rest of the elements.
+
+
+
+
+
+It should be noted that to create the global stiffness matrix representing all 10 DOFs, each local stiffness
+matrix must be translated to the global coordinate system. This can be done by using the following equation:
+
+$$K_{\text{global}} = M_{\text{translation}}^T \cdot K_{\text{local}} \cdot M_{\text{translation}}$$
+
+
+Since each element has 2 nodes each having 2 degrees of freedom in the global coordinate system, a 4x4 translation matrix will be used. The translation matrix is as follows:
+
+\[
+M_{\text{translation}} = 
+\begin{bmatrix}
+\cos\theta & \sin\theta & 0 & 0 \\
+-\sin\theta & \cos\theta & 0 & 0 \\
+0 & 0 & \cos\theta & \sin\theta \\
+0 & 0 & -\sin\theta & \cos\theta
+\end{bmatrix}
+\]
+The transpose of the translation matrix is as follows:
+\[
+M_{\text{translation}}^T = 
+\begin{bmatrix}
+\cos\theta & -\sin\theta & 0 & 0 \\
+\sin\theta & \cos\theta & 0 & 0 \\
+0 & 0 & \cos\theta & -\sin\theta \\
+0 & 0 & \sin\theta & \cos\theta
+\end{bmatrix}
+\]
+
+
+
+Therefore:
+$$K_{\text{global}} = \begin{bmatrix}
+    \cos\theta & -\sin\theta & 0 & 0 \\
+    \sin\theta & \cos\theta & 0 & 0 \\
+    0 & 0 & \cos\theta & -\sin\theta \\
+    0 & 0 & \sin\theta & \cos\theta
+    \end{bmatrix} \cdot \frac{AE}{L}
+    \begin{bmatrix}
+        1 & 0 & -1 & 0 \\
+        0 & 0 & 0 & 0 \\
+        -1 & 0 & 1 & 0 \\
+        0 & 0 & 0 & 0 \\
+    \end{bmatrix} \cdot \begin{bmatrix}
+        \cos\theta & -\sin\theta & 0 & 0 \\
+        \sin\theta & \cos\theta & 0 & 0 \\
+        0 & 0 & \cos\theta & -\sin\theta \\
+        0 & 0 & \sin\theta & \cos\theta \end{bmatrix}$$
+
+Following through with the matrix multiplication, the following global stiffness matrix is obtained:
+\[
+K_{\text{global}} = \frac{AE}{L}
+\begin{bmatrix}
+\cos^2\theta & \cos\theta \sin\theta & -\cos^2\theta & -\cos\theta \sin\theta \\
+\cos\theta \sin\theta & \sin^2\theta & -\cos\theta \sin\theta & -\sin^2\theta \\
+-\cos^2\theta & -\cos\theta \sin\theta & \cos^2\theta & \cos\theta \sin\theta \\
+-\cos\theta \sin\theta & -\sin^2\theta & \cos\theta \sin\theta & \sin^2\theta \\
+\end{bmatrix}
+\]
+
+Note: $\theta$ represents the angle of the element with respect to the positive x axis. 
+
+\[
+k_{1g} = 10^7 \cdot 
+\begin{bmatrix}
+  1.6667 & 2.8868 & -1.6667 & -2.8868 & 0 & 0 & 0 & 0 & 0 & 0 \\
+  2.8868 & 5.0000 & -2.8868 & -5.0000 & 0 & 0 & 0 & 0 & 0 & 0 \\
+ -1.6667 & -2.8868 & 1.6667 & 2.8868 & 0 & 0 & 0 & 0 & 0 & 0 \\
+ -2.8868 & -5.0000 & 2.8868 & 5.0000 & 0 & 0 & 0 & 0 & 0 & 0 \\
+  0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\
+  0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\
+  0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\
+  0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\
+  0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\
+  0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0
+\end{bmatrix}
+\]
+
+\[
+k_{2g} = 10^7 \cdot 
+\begin{bmatrix}
+  6.6667 & 0 & 0 & 0 & -6.6667 & 0 & 0 & 0 & 0 & 0 \\
+  0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\
+  0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\
+  0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\
+ -6.6667 & 0 & 0 & 0 & 6.6667 & 0 & 0 & 0 & 0 & 0 \\
+  0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\
+  0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\
+  0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\
+  0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\
+  0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0
+\end{bmatrix}
+\]
+
+\[
+k_{3g} = 10^7 \cdot 
+\begin{bmatrix}
+  0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\
+  0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\
+  0 & 0 & 1.6667 & -2.8868 & -1.6667 & 2.8868 & 0 & 0 & 0 & 0 \\
+  0 & 0 & -2.8868 & 5.0000 & 2.8868 & -5.0000 & 0 & 0 & 0 & 0 \\
+  0 & 0 & -1.6667 & 2.8868 & 1.6667 & -2.8868 & 0 & 0 & 0 & 0 \\
+  0 & 0 & 2.8868 & -5.0000 & -2.8868 & 5.0000 & 0 & 0 & 0 & 0 \\
+  0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\
+  0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\
+  0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\
+  0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0
+\end{bmatrix}
+\]
+
+\[
+k_{4g} = 10^7 \cdot 
+\begin{bmatrix}
+  0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\
+  0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\
+  0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\
+  0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\
+  0 & 0 & 0 & 0 & 1.6667 & 2.8868 & -1.6667 & -2.8868 & 0 & 0 \\
+  0 & 0 & 0 & 0 & 2.8868 & 5.0000 & -2.8868 & -5.0000 & 0 & 0 \\
+  0 & 0 & 0 & 0 & -1.6667 & -2.8868 & 1.6667 & 2.8868 & 0 & 0 \\
+  0 & 0 & 0 & 0 & -2.8868 & -5.0000 & 2.8868 & 5.0000 & 0 & 0 \\
+  0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\
+  0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0
+\end{bmatrix}
+\]
+
+\[
+k_{5g} = 10^7 \cdot 
+\begin{bmatrix}
+  0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\
+  0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\
+  0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\
+  0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\
+  0 & 0 & 0 & 0 & 6.6667 & 0 & 0 & 0 & -6.6667 & 0 \\
+  0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\
+  0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\
+  0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\
+  0 & 0 & 0 & 0 & -6.6667 & 0 & 0 & 0 & 6.6667 & 0 \\
+  0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0
+\end{bmatrix}
+\]
+
+\[
+k_{6g} = 10^7 \cdot 
+\begin{bmatrix}
+  0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\
+  0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\
+  0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\
+  0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\
+  0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\
+  0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\
+  0 & 0 & 0 & 0 & 0 & 0 & 1.6667 & -2.8868 & -1.6667 & 2.8868 \\
+  0 & 0 & 0 & 0 & 0 & 0 & -2.8868 & 5.0000 & 2.8868 & -5.0000 \\
+  0 & 0 & 0 & 0 & 0 & 0 & -1.6667 & 2.8868 & 1.6667 & -2.8868 \\
+  0 & 0 & 0 & 0 & 0 & 0 & 2.8868 & -5.0000 & -2.8868 & 5.0000
+\end{bmatrix}
+\]
+
+\[
+k_{7g} = 10^7 \cdot 
+\begin{bmatrix}
+  0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\
+  0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\
+  0 & 0 & 6.6667 & 0 & 0 & 0 & -6.6667 & 0 & 0 & 0 \\
+  0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\
+  0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\
+  0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\
+  0 & 0 & -6.6667 & 0 & 0 & 0 & 6.6667 & 0 & 0 & 0 \\
+  0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\
+  0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\
+  0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0
+\end{bmatrix}
+\]
+
+Adding all the global stiffness matrices together, we get the following global stiffness matrix:
+
+\[ 
+\begin{bmatrix}
+  0.8333 & 0.2887 & -0.1667 & -0.2887 & -0.6667 & 0 & 0 & 0 & 0 & 0 \\
+  0.2887 & 0.5000 & -0.2887 & -0.5000 & 0 & 0 & 0 & 0 & 0 & 0 \\
+ -0.1667 & -0.2887 & 1.0000 & 0 & -0.1667 & 0.2887 & -0.6667 & 0 & 0 & 0 \\
+ -0.2887 & -0.5000 & 0 & 1.0000 & 0.2887 & -0.5000 & 0 & 0 & 0 & 0 \\
+ -0.6667 & 0 & -0.1667 & 0.2887 & 1.6667 & 0 & -0.1667 & -0.2887 & -0.6667 & 0 \\
+  0 & 0 & 0.2887 & -0.5000 & 0 & 1.0000 & -0.2887 & -0.5000 & 0 & 0 \\
+  0 & 0 & -0.6667 & 0 & -0.1667 & -0.2887 & 1.0000 & 0 & -0.1667 & 0.2887 \\
+  0 & 0 & 0 & 0 & -0.2887 & -0.5000 & 0 & 1.0000 & 0.2887 & -0.5000 \\
+  0 & 0 & 0 & 0 & -0.6667 & 0 & -0.1667 & 0.2887 & 0.8333 & -0.2887 \\
+  0 & 0 & 0 & 0 & 0 & 0 & 0.2887 & -0.5000 & -0.2887 & 0.5000
+\end{bmatrix}
+\]
+
+
+
+
+
+%below is a general, idk if we want to use this at the start to explain FEA in general?
+% The matrix used will be the stiffness matrix \( K \), such that any force or displacement can be found by analyzing some row \( i \).
+% $$ F_i = -(k_{1j}x_i + k_{2j}x_i + \cdots + k_{n}x_n) $$
+
+\end{document}

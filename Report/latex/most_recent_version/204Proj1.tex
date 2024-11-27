@@ -308,7 +308,16 @@ The displacement vs position plot for all the nodes is given in figure~\ref{fig:
 \section{Problem 3}
 
 \subsection{Matrix Equations}
-Much as in problem 2, the k value for this problem is given by \(k=\frac{AE}{L}\). The k matrix must now account for the additional dimension, thus the general stiffness matrix is given by:
+
+\begin{figure}[!h]
+    \centering
+    \includegraphics[width=0.5\textwidth]{../../assets/Truss_Labels.png}
+    \caption{Truss Diagram with Element Labels}
+    \label{fig:P2_Truss_Lables}
+\end{figure}
+
+
+The truss diagram with element labels for this problem is given in figure 3. Much as in problem 2, the k value for this problem is given by \(k=\frac{AE}{L}\). The k matrix must now account for the additional dimension, thus the general stiffness matrix is given by:
 \[
 k=\frac{AE}{L}
 \begin{bmatrix}
@@ -318,6 +327,7 @@ k=\frac{AE}{L}
     -\cos\theta\sin\theta & -\sin\theta^2 & \cos\theta\sin\theta & \sin\theta^2 \\
 \end{bmatrix}
 \]
+
 Thus, the element matrix equations for this problem are:
 \[
 k_1 = 10^7 \times
@@ -485,38 +495,7 @@ Recognizing that y is constrained at nodes 1 and 5 by the roller, we get the fol
 \]
 
 \subsection{Problem 3 Answers}
-Solving this system with MATLAB, we get the following results. The global node displacements (given by the x vector)for each node are:
-\[
-    \text{Displacement} = 10^{-3} \times 
-    \begin{bmatrix}
-        -0.0242 \\
-        0 \\
-        0.0180 \\
-        -0.0794 \\
-        -0.0004 \\
-        -0.1050 \\
-        -0.0123 \\
-        -0.1131 \\
-        0.0364 \\
-        0 \\
-    \end{bmatrix}
-    \text{m}
-\]
-The normal stresses in each member are:
-\[
-    \text{Normal Stresses in Each Member} =
-    \begin{bmatrix}
-        -7.939 \\
-        3.969 \\
-        2.165 \\
-        -2.165 \\
-        6.134 \\
-        -12.269 \\
-        -5.052 \\
-    \end{bmatrix}
-    \text{MPa}
-\]
-The x and y components of displacement for each node is:
+Solving this system with MATLAB we get that the x and y components of displacement for each node is:
 \[
 \text{x component} = 10^{-5} \times
 \begin{bmatrix}
@@ -537,6 +516,34 @@ The x and y components of displacement for each node is:
     -11.31 \\
     0
 \end{bmatrix} \text{ m}
+\]
+The magnitude of each displacement vector calculated by $\sqrt{x^2+y^2}$ is:
+
+
+\[
+    \sqrt{x^2+y^2} = 10^{-5} \times 
+    \begin{bmatrix}
+        2.419 \\
+        8.140 \\
+        10.50 \\
+        11.38 \\
+        3.644 \\
+    \end{bmatrix}
+    \text{m}
+\]
+The normal stresses in each member are:
+\[
+    \text{Normal Stresses in Each Member} =
+    \begin{bmatrix}
+        -7.939 \\
+        3.969 \\
+        2.165 \\
+        -2.165 \\
+        6.134 \\
+        -12.269 \\
+        -5.052 \\
+    \end{bmatrix}
+    \text{MPa}
 \]
 
 \end{document}

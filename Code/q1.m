@@ -8,14 +8,12 @@ k2=0.5;  % Stiffness of element 2 (N/m)
 k3=1.5;  % Stiffness of element 3 (N/m)
 k4=0.75; % Stiffness of element 4 (N/m)
 k5=1;    % Stiffness of element 5 (N/m)
-format long; % Set the display format to show more digits for displacements
+format long; % we want to see more digits so we set the format to long
 
 %----------------------------------------
 % Global Stiffness Matrix Assembly
-%----------------------------------------
+%---------------------------------------
 % K1 is the global stiffness matrix for the system.
-% Each element's stiffness contributes to the matrix as determined by
-% the connectivity of the nodes and the stiffness values of the elements.
 K1 = [
     k1, -k1,    0,    0,    0,    0;
    -k1, k1+k2, -k2,    0,    0,    0;
@@ -25,7 +23,7 @@ K1 = [
      0,   0,     0,    0,  -k5,  k5;
 ];
 
-%----------------------------------------
+%--------------------------------------
 % Force Vector
 %----------------------------------------
 % F1 represents the external forces applied at each node.
@@ -64,16 +62,16 @@ end
 disp('Displacement of node 6 (m):');
 fprintf('Node 6: %.12f m\n', X1(6));
 
-%----------------------------------------
-% Plot Displacement vs Position
+%---------------------------------------
+% Plot Displacement vs position
 %----------------------------------------
 % The positions correspond to the nodes (0 to 5 for 6 nodes).
 positions = 0:length(X1)-1;
 
 % Plot the displacements at each node
 figure;
-plot(positions, X1, '-o', 'LineWidth', 2, 'MarkerSize', 8); % Line with markers for clarity
-title('Displacement vs. Position of Nodes');                % Plot title
-xlabel('Position (Nodes)');                                 % X-axis label
-ylabel('Displacement (m)');                                 % Y-axis label
-grid on;                                                    % Enable grid for better readability
+plot(positions, X1, '-o', 'LineWidth', 2, 'MarkerSize', 8); 
+title('Displacement vs. Position of Nodes');                
+xlabel('Position (Nodes)');                                 
+ylabel('Displacement (m)');                                 
+grid on;                                                    

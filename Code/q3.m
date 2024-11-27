@@ -4,13 +4,10 @@
 % Question: 3
 %----------------------------------------
 format long; % Set the display format to show more digits
-%----------------------------------------
-% Problem 3: 2D Truss
-%----------------------------------------
 
 % Given Parameters
 Eg = 200e9;                % Young's Modulus (Pa)
-Ag = 4e-4;                 % Cross-sectional Area (m^2)
+Ag = 4e-4;                % Cross-sectional Area (m^2)
 Lg = 1.2;                  % Length of truss element (m)
 
 % Support Conditions (Constrained DOFs)
@@ -18,24 +15,24 @@ Lg = 1.2;                  % Length of truss element (m)
 removeDOFs = [2, 10];   % DOF numbers to remove (constraints)
 
 % External Forces
-F = zeros(10, 1);          % Initialize force vector (10 DOFs for 5 nodes)
+F = zeros(10, 1);        % Initialize force vector (10 DOFs for 5 nodes)
 F(4) = -2000;              % Force at DOF 4 (y-direction at Node 2)
 F(8) = -5000;              % Force at DOF 8 (y-direction at Node 4)
 
 % Truss Elements: [node1, node2, theta]
 elements = [
     1, 2, 60;   % Element 1
-    1, 3, 0;    % Element 2
+    1, 3, 0;   % Element 2
     2, 3, -60;  % Element 3
     3, 4, 60;   % Element 4
     3, 5, 0;    % Element 5
-    4, 5, -60;  % Element 6
+    4, 5, -60; % Element 6
     2, 4, 0;    % Element 7
 ];
 
 %----------------------------------------
 % Global Stiffness Matrix Assembly
-%----------------------------------------
+%---------------------------------------
 
 numNodes = 5;
 numDOFs = 2 * numNodes;   % Total DOFs
@@ -51,12 +48,11 @@ for i = 1:size(elements, 1)
     fprintf('Global Stiffness Matrix for Element %d:\n', i);
     disp(mat);
     K_global = K_global + mat;
-    % K_global = K_global + generateGlobalStiffness(theta, node1, node2, Ag, Eg, Lg, numNodes);
 end
 
 %----------------------------------------
 % Apply Boundary Conditions
-%----------------------------------------
+%---------------------------------------
 
 % Remove constrained DOFs from the global stiffness matrix and force vector
 F_reduced = F;
@@ -83,7 +79,7 @@ displacements(freeDOFs) = XG;
 
 %----------------------------------------
 % Display Global Displacement Vector
-%----------------------------------------
+%---------------------------------------
 
 disp('Global Displacement Vector (m):');
 for i = 1:numDOFs/2

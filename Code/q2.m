@@ -12,10 +12,9 @@ format long; % Set the display format to show more digits
 
 %----------------------------------------
 % Input Parameters
-%----------------------------------------
+%---------------------------------------
 E = 207000; % Young's Modulus in MPa
-% Cross-sectional stiffness values for each element
-% Dimensions of the bar (converted to consistent units in cm)
+
 r1 = 1.5; % Radius of element 1 (cm)
 L1 = 10;  % Length of element 1 (cm)
 
@@ -49,13 +48,13 @@ K1 = [
 
 %----------------------------------------
 % Force Vector
-%----------------------------------------
+%---------------------------------------
 % F1 represents the external forces applied to the nodes.
-% Here, only the last node (Node 4) has a force of 1000 N applied.
+% Here, only the last node has a force of 1000 N applied.
 F1 = [0; 0; 0; 1000];
 
 %----------------------------------------
-% Apply Boundary Conditions
+% Applying Boundary Conditions
 %----------------------------------------
 % The first node is fixed, meaning its displacement is 0. This requires
 % removing the first row and column of the stiffness matrix (K1) and the
@@ -86,19 +85,19 @@ for i = 1:length(X1_cm)
     fprintf('Node %d: %.7f cm\n', i, X1_cm(i));
 end
 
-% Display the displacement of the last node explicitly
+% Display the displacement of the last node
 disp('Displacement of Node 4 (cm):');
 disp(X1_cm(4));
 
-%----------------------------------------
+%--------------------------------------
 % Plot Displacement vs Position
 %----------------------------------------
 positions = 0:length(X1)-1; % Node positions (indices starting from 0)
 figure;
 plot(positions, X1, '-o', 'LineWidth', 2, 'MarkerSize', 8);
 title('Displacement vs. Position of Nodes');
-xticks(0:3);                % Specify integer tick positions for x-axis
-xticklabels(string(0:3));   % Explicitly set integer labels
+xticks(0:3);                
+xticklabels(string(0:3));   
 xlabel('Position (Nodes)');
 ylabel('Displacement (mm)');
 grid on;

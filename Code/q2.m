@@ -102,11 +102,3 @@ xticklabels(string(0:3));   % Explicitly set integer labels
 xlabel('Position (Nodes)');
 ylabel('Displacement (mm)');
 grid on;
-
-%----------------------------------------
-% Explanation of Results
-%----------------------------------------
-% The displacements represent the movement of each node due to the applied
-% force at Node 4. Node 1 remains fixed, so its displacement is zero.
-% Nodes 2, 3, and 4 displace according to the flexibility of the connected
-% elements and their stiffness.

@@ -1,8 +1,8 @@
-PWD /Users/yaremadzulynsky/Documents/Waterloo/2B/MTE204/P2/Report/latex/most_recent_version
+PWD /Users/yaremadzulynsky/Documents/Waterloo/2B/MTE204/P2/Proj2/204P2/Report/latex/most_recent_version
 INPUT /usr/local/texlive/2023/texmf.cnf
 INPUT /usr/local/texlive/2023/texmf-dist/web2c/texmf.cnf
 INPUT /usr/local/texlive/2023/texmf-var/web2c/xetex/xelatex.fmt
-INPUT /Users/yaremadzulynsky/Documents/Waterloo/2B/MTE204/P2/Report/latex/most_recent_version/204Proj1.tex
+INPUT /Users/yaremadzulynsky/Documents/Waterloo/2B/MTE204/P2/Proj2/204P2/Report/latex/most_recent_version/204Proj1.tex
 OUTPUT 204Proj1.log
 INPUT /usr/local/texlive/2023/texmf-dist/tex/latex/base/article.cls
 INPUT /usr/local/texlive/2023/texmf-dist/tex/latex/base/article.cls

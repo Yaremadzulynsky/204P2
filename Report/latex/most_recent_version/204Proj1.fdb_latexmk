@@ -1,14 +1,14 @@
 # Fdb version 4
-["xdvipdfmx"] 1732305448 "204Proj1.xdv" "204Proj1.pdf" "204Proj1" 1732305448 0
-  "204Proj1.xdv" 1732305448 29560 aa02c7713b84150a15bb558edb43a89c "xelatex"
+["xdvipdfmx"] 1732722798 "204Proj1.xdv" "204Proj1.pdf" "204Proj1" 1732722798 0
+  "204Proj1.xdv" 1732722797 29560 aec58b9b9a1ce6f5cf63d4ae33887484 "xelatex"
   (generated)
   "204Proj1.pdf"
   (rewritten before read)
-["xelatex"] 1732305447 "/Users/yaremadzulynsky/Documents/Waterloo/2B/MTE204/P2/Report/latex/most_recent_version/204Proj1.tex" "204Proj1.xdv" "204Proj1" 1732305448 0
-  "../../assets/Q1_Graph.png" 1732303048 78080 f67081c97f8a055c5f93320dec6e277d ""
-  "../../assets/Q2_Graph.png" 1732303081 67169 f4fcbfe4eb37922f54be544960b1effe ""
-  "../sbc-template.sty" 1732301147 5346 d51cbfec0cdb607c83d02817258e3d85 ""
-  "/Users/yaremadzulynsky/Documents/Waterloo/2B/MTE204/P2/Report/latex/most_recent_version/204Proj1.tex" 1732305447 13963 41044f3416785dd9ca5861548daaa1e6 ""
+["xelatex"] 1732722797 "/Users/yaremadzulynsky/Documents/Waterloo/2B/MTE204/P2/Proj2/204P2/Report/latex/most_recent_version/204Proj1.tex" "204Proj1.xdv" "204Proj1" 1732722798 0
+  "../../assets/Q1_Graph.png" 1732642924 78080 f67081c97f8a055c5f93320dec6e277d ""
+  "../../assets/Q2_Graph.png" 1732642924 67169 f4fcbfe4eb37922f54be544960b1effe ""
+  "../sbc-template.sty" 1732642924 5346 d51cbfec0cdb607c83d02817258e3d85 ""
+  "/Users/yaremadzulynsky/Documents/Waterloo/2B/MTE204/P2/Proj2/204P2/Report/latex/most_recent_version/204Proj1.tex" 1732722796 13963 41044f3416785dd9ca5861548daaa1e6 ""
   "/usr/local/texlive/2023/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "/usr/local/texlive/2023/texmf-dist/fonts/tfm/adobe/helvetic/phvb8t.tfm" 1136768653 6628 34c39492c0adc454c1c199922bba8363 ""
   "/usr/local/texlive/2023/texmf-dist/fonts/tfm/adobe/helvetic/phvr8t.tfm" 1136768653 7040 b2bd27e2bfe6f6948cbc3239cae7444f ""
@@ -216,9 +216,9 @@
   "/usr/local/texlive/2023/texmf-dist/web2c/texmf.cnf" 1677365944 40745 87bb86a62d462f93a1efc6b0c65c872e ""
   "/usr/local/texlive/2023/texmf-var/web2c/xetex/xelatex.fmt" 1683149595 10502815 a5b4e8c5a00c3e426406d01e22274822 ""
   "/usr/local/texlive/2023/texmf.cnf" 1678822455 577 1b2b1af17af2508fb20dd85783af4050 ""
-  "204Proj1.aux" 1732305448 2310 a5e2b741782a333dd6b9576dd242500c "xelatex"
-  "204Proj1.out" 1732305448 1137 d64bdc6c4eb5e843d3231c2b921ad9a7 "xelatex"
-  "204Proj1.tex" 1732305447 13963 41044f3416785dd9ca5861548daaa1e6 ""
+  "204Proj1.aux" 1732722797 2310 a5e2b741782a333dd6b9576dd242500c "xelatex"
+  "204Proj1.out" 1732722797 1137 d64bdc6c4eb5e843d3231c2b921ad9a7 "xelatex"
+  "204Proj1.tex" 1732722796 13963 41044f3416785dd9ca5861548daaa1e6 ""
   (generated)
   "204Proj1.aux"
   "204Proj1.log"

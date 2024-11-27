@@ -86,8 +86,10 @@ displacements(freeDOFs) = XG;
 %----------------------------------------
 
 disp('Global Displacement Vector (m):');
-for i = 1:numDOFs
-    fprintf('DOF %d: %.6e m\n', i, displacements(i));
+for i = 1:numDOFs/2
+    ux = displacements(2*i - 1);  % x-component of displacement
+    uy = displacements(2*i);      % y-component of displacement
+    fprintf('Node %d: %.6e m\n', i, sqrt(ux^2 + uy^2));  % Magnitude of displacement vector
 end
 
 %----------------------------------------
